@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOID STUDIO | 写真スタジオ</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: #f0ece4;
+      color: #0a0a0a;
+      overflow-x: hidden;
+    }
+
+    /* ===== BRUTAL HEADER ===== */
+    header {
+      border-bottom: 4px solid #0a0a0a;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 32px;
+      height: 72px;
+    }
+    .h-left { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; }
+    .h-logo { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.03em; text-align: center; border-left: 4px solid #0a0a0a; border-right: 4px solid #0a0a0a; padding: 0 32px; line-height: 72px; }
+    .h-right { text-align: right; }
+    .h-cta {
+      display: inline-block; background: #0a0a0a; color: #f0ece4;
+      padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.15em;
+      text-decoration: none; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .h-cta:hover { background: #e63; }
+
+    /* ===== HERO: FULL BLEED BRUTAL ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      min-height: calc(100vh - 72px);
+      border-bottom: 4px solid #0a0a0a;
+    }
+    .hero-left {
+      background: #0a0a0a;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left::before {
+      content: 'STUDIO';
+      position: absolute; top: -40px; left: -20px;
+      font-size: 22vw; font-weight: 900;
+      color: rgba(255,255,255,0.03);
+      line-height: 1; pointer-events: none;
+    }
+    .hero-number {
+      font-size: 0.65rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.4em; margin-bottom: 40px;
+    }
+    .hero-title {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 900; color: #f0ece4;
+      line-height: 0.9; letter-spacing: -0.04em;
+      margin-bottom: 48px;
+    }
+    .hero-title span { color: #e63; display: block; }
+    .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+    .hero-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.9; max-width: 300px; }
+    .hero-scroll { font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 0.3em; writing-mode: vertical-rl; }
+
+    .hero-right {
+      border-left: 4px solid #0a0a0a;
+      display: grid; grid-template-rows: 1fr 1fr;
+    }
+    .hero-photo {
+      background: #c8b89a;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; border-bottom: 4px solid #0a0a0a;
+      position: relative;
+    }
+    .hero-photo-label {
+      position: absolute; bottom: 16px; left: 16px;
+      font-size: 0.65rem; letter-spacing: 0.2em; background: #f0ece4;
+      padding: 4px 10px;
+    }
+    .hero-info {
+      padding: 40px 36px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .hero-info-item { border-bottom: 2px solid #0a0a0a; padding-bottom: 16px; margin-bottom: 16px; }
+    .hero-info-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .info-key { font-size: 0.6rem; letter-spacing: 0.3em; color: #888; margin-bottom: 4px; }
+    .info-val { font-size: 0.9rem; font-weight: 700; }
+
+    /* ===== TICKER ===== */
+    .ticker {
+      border-top: 4px solid #0a0a0a;
+      border-bottom: 4px solid #0a0a0a;
+      background: #e63; color: white;
+      padding: 14px 0; overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 20s linear infinite;
+    }
+    .ticker-inner span { margin: 0 40px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ===== WORKS GRID ===== */
+    .works { padding: 80px 0; }
+    .works-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0 48px 48px; border-bottom: 2px solid #0a0a0a; margin-bottom: 0;
+    }
+    .works-title { font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; letter-spacing: -0.03em; }
+    .works-count { font-size: 0.7rem; letter-spacing: 0.3em; color: #888; }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      border-left: 2px solid #0a0a0a;
+    }
+    .work-item {
+      border-right: 2px solid #0a0a0a;
+      border-bottom: 2px solid #0a0a0a;
+      background: #c8b89a;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; cursor: pointer;
+    }
+    .work-item:hover .work-overlay { opacity: 1; }
+    .work-item .emoji { font-size: 4rem; }
+    .work-item:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; }
+    .work-item:nth-child(2) { grid-column: span 5; background: #b8a48a; }
+    .work-item:nth-child(3) { grid-column: span 4; aspect-ratio: 1; background: #d8c8b0; }
+    .work-item:nth-child(4) { grid-column: span 4; background: #a89478; }
+    .work-item:nth-child(5) { grid-column: span 4; background: #c0b09a; }
+    .work-overlay {
+      position: absolute; inset: 0; background: rgba(10,10,10,0.8);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 24px; opacity: 0; transition: opacity 0.3s;
+    }
+    .work-title { color: white; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; }
+    .work-cat { color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.2em; }
+
+    /* ===== SERVICES: HORIZONTAL SCROLL ===== */
+    .services {
+      border-top: 4px solid #0a0a0a;
+      border-bottom: 4px solid #0a0a0a;
+      padding: 80px 48px;
+      background: #0a0a0a; color: #f0ece4;
+    }
+    .services-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 64px;
+    }
+    .services-title { font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; letter-spacing: -0.03em; }
+    .services-en { font-size: 0.65rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.3); margin-top: 8px; }
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 2px solid #333; }
+    .service {
+      padding: 40px 32px; border-right: 2px solid #333;
+      transition: background 0.3s;
+    }
+    .service:last-child { border-right: none; }
+    .service:hover { background: #e63; }
+    .service-num { font-size: 3rem; font-weight: 900; color: #333; line-height: 1; margin-bottom: 20px; }
+    .service:hover .service-num { color: rgba(255,255,255,0.3); }
+    .service-name { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .service-price { font-size: 1.3rem; font-weight: 900; color: #e63; margin-bottom: 16px; }
+    .service:hover .service-price { color: white; }
+    .service-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+    .service:hover .service-desc { color: rgba(255,255,255,0.8); }
+
+    /* ===== CTA: FULL BLEED ===== */
+    .cta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 50vh; border-top: 4px solid #0a0a0a;
+    }
+    .cta-left {
+      background: #e63; padding: 80px 64px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .cta-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; color: white; letter-spacing: -0.04em; line-height: 1; }
+    .cta-btn {
+      display: inline-block; background: white; color: #e63;
+      padding: 20px 40px; font-size: 0.85rem; font-weight: 900;
+      letter-spacing: 0.2em; text-decoration: none; text-transform: uppercase;
+      transition: all 0.2s; align-self: flex-start;
+    }
+    .cta-btn:hover { background: #0a0a0a; color: white; }
+    .cta-right {
+      background: #f0ece4; padding: 80px 64px; border-left: 4px solid #0a0a0a;
+      display: flex; flex-direction: column; justify-content: center; gap: 32px;
+    }
+    .cta-info-block { border-left: 4px solid #0a0a0a; padding-left: 24px; }
+    .cta-info-label { font-size: 0.65rem; letter-spacing: 0.3em; color: #888; margin-bottom: 4px; }
+    .cta-info-value { font-size: 1.1rem; font-weight: 700; }
+
+    footer {
+      border-top: 4px solid #0a0a0a;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 48px; font-size: 0.72rem; color: #888; letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 768px) {
+      header { grid-template-columns: 1fr auto; }
+      .h-left { display: none; }
+      .h-logo { border-left: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .works-grid { grid-template-columns: 1fr 1fr; }
+      .work-item:nth-child(n) { grid-column: span 1; aspect-ratio: 1; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service { border-right: none; border-bottom: 2px solid #333; }
+      .cta { grid-template-columns: 1fr; }
+      .cta-right { border-left: none; border-top: 4px solid #0a0a0a; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="h-left">Tokyo / Since 2018</div>
+    <div class="h-logo">VOID</div>
+    <div class="h-right">
+      <a href="#cta" class="h-cta">Book Now</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-number">— 01 / STUDIO</div>
+      <h1 class="hero-title">
+        CAPTURE<span>THE</span>REAL.
+      </h1>
+      <div class="hero-bottom">
+        <p class="hero-desc">商業写真・ポートレート・広告ビジュアル。東京・渋谷の本格スタジオで、あなたのビジョンを形にします。</p>
+        <div class="hero-scroll">SCROLL DOWN</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-photo">
+        📷
+        <span class="hero-photo-label">STUDIO A / 100㎡</span>
+      </div>
+      <div class="hero-info">
+        <div class="hero-info-item">
+          <div class="info-key">LOCATION</div>
+          <div class="info-val">渋谷区神南 / 渋谷駅 徒歩5分</div>
+        </div>
+        <div class="hero-info-item">
+          <div class="info-key">OPEN</div>
+          <div class="info-val">9:00 〜 22:00 / 年中無休</div>
+        </div>
+        <div class="hero-info-item">
+          <div class="info-key">STUDIO</div>
+          <div class="info-val">3スタジオ / 最大200㎡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>PORTRAIT</span><span>COMMERCIAL</span><span>FASHION</span><span>PRODUCT</span><span>ARCHITECTURE</span><span>EVENT</span>
+      <span>PORTRAIT</span><span>COMMERCIAL</span><span>FASHION</span><span>PRODUCT</span><span>ARCHITECTURE</span><span>EVENT</span>
+    </div>
+  </div>
+
+  <section class="works">
+    <div class="works-header">
+      <h2 class="works-title">WORKS</h2>
+      <span class="works-count">150+ PROJECTS</span>
+    </div>
+    <div class="works-grid">
+      <div class="work-item"><span class="emoji">👗</span><div class="work-overlay"><div class="work-title">FASHION CAMPAIGN</div><div class="work-cat">COMMERCIAL</div></div></div>
+      <div class="work-item"><span class="emoji">💄</span><div class="work-overlay"><div class="work-title">BEAUTY PORTRAIT</div><div class="work-cat">PORTRAIT</div></div></div>
+      <div class="work-item"><span class="emoji">📦</span><div class="work-overlay"><div class="work-title">PRODUCT SHOOT</div><div class="work-cat">COMMERCIAL</div></div></div>
+      <div class="work-item"><span class="emoji">🏢</span><div class="work-overlay"><div class="work-title">CORPORATE PHOTO</div><div class="work-cat">BUSINESS</div></div></div>
+      <div class="work-item"><span class="emoji">🎂</span><div class="work-overlay"><div class="work-title">FOOD STYLING</div><div class="work-cat">PRODUCT</div></div></div>
+    </div>
+  </section>
+
+  <section class="services">
+    <div class="services-top">
+      <div>
+        <h2 class="services-title">SERVICES</h2>
+        <div class="services-en">WHAT WE OFFER</div>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service">
+        <div class="service-num">01</div>
+        <div class="service-name">スタジオレンタル</div>
+        <div class="service-price">¥5,500<span style="font-size:0.8rem;font-weight:400;">/h〜</span></div>
+        <p class="service-desc">3スタジオを時間単位でレンタル。機材・ライティングセット込み。</p>
+      </div>
+      <div class="service">
+        <div class="service-num">02</div>
+        <div class="service-name">ポートレート撮影</div>
+        <div class="service-price">¥22,000<span style="font-size:0.8rem;font-weight:400;">〜</span></div>
+        <p class="service-desc">プロカメラマンによるポートレート。就活・プロフィール・SNS用。</p>
+      </div>
+      <div class="service">
+        <div class="service-num">03</div>
+        <div class="service-name">商業撮影</div>
+        <div class="service-price">¥88,000<span style="font-size:0.8rem;font-weight:400;">〜</span></div>
+        <p class="service-desc">広告・カタログ・WEB用の商業写真。スタイリスト手配可。</p>
+      </div>
+      <div class="service">
+        <div class="service-num">04</div>
+        <div class="service-name">動画制作</div>
+        <div class="service-price">¥165,000<span style="font-size:0.8rem;font-weight:400;">〜</span></div>
+        <p class="service-desc">PV・CM・SNS動画の企画から制作まで一括対応。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="cta">
+    <div class="cta-left">
+      <h2 class="cta-title">BOOK YOUR SHOOT.</h2>
+      <a href="#" class="cta-btn">Reserve Now →</a>
+    </div>
+    <div class="cta-right">
+      <div class="cta-info-block">
+        <div class="cta-info-label">ADDRESS</div>
+        <div class="cta-info-value">東京都渋谷区神南1-2-3 VOIDビル</div>
+      </div>
+      <div class="cta-info-block">
+        <div class="cta-info-label">TEL</div>
+        <div class="cta-info-value">03-XXXX-XXXX</div>
+      </div>
+      <div class="cta-info-block">
+        <div class="cta-info-label">HOURS</div>
+        <div class="cta-info-value">9:00 〜 22:00 / 年中無休</div>
+      </div>
+      <div class="cta-info-block">
+        <div class="cta-info-label">MAIL</div>
+        <div class="cta-info-value">book@voidstudio.jp</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2024 VOID STUDIO</span>
+    <span>TOKYO / SHIBUYA</span>
+  </footer>
+
+</body>
+</html>
